@@ -12,8 +12,9 @@ Cursor      = require "./cursor"
 Selection   = require "./selection"
 Segments    = require "./segments"
 
-SM_Waveform = require "./waveform"
+SM_Waveform  = require "./waveform"
 AudioManager = require "./audio_manager"
+Player       = require "./player"
 
 class Main
     DefaultOptions:
@@ -50,7 +51,10 @@ class Main
         @$t.append @$ui
 
         @audio = new AudioManager()
-
+        
+        # -- audio component for player module --#
+        @player = new Player @audio
+        
         # -- Manage Data -- #
 
         Cursor.on "change", =>

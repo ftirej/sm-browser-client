@@ -52,6 +52,25 @@ ClearSelectionButton = React.createClass
 
 #----------
 
+PlayNow = React.createClass
+    render: ->
+        onClick = => Dispatcher.dispatch actionType:"play-now"
+
+        classes = "btn btn-default"
+
+        <button className={classes} onClick={onClick}>Play now</button>
+
+#----------
+
+StopNow = React.createClass
+    render: ->
+        onClick = => Dispatcher.dispatch actionType:"stop-now"
+
+        classes = "btn btn-default"
+
+        <button className={classes} onClick={onClick}>Stop now</button>
+#----------
+
 module.exports = React.createClass
     render: ->
         <div>
@@ -59,4 +78,6 @@ module.exports = React.createClass
             <SetPointButton point="in" in={@props.selectionIn} out={@props.selectionOut} cursor={@props.cursor}/>
             <SetPointButton point="out" in={@props.selectionIn} out={@props.selectionOut} cursor={@props.cursor}/>
             <ClearSelectionButton in={@props.selectionIn} out={@props.selectionOut}/>
+            <PlayNow/>
+            <StopNow/>
         </div>

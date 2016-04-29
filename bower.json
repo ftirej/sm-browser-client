@@ -7,7 +7,8 @@
     "backbone": "~1.2.3",
     "d3": "~3.5.12",
     "waveform-data": "~1.5.1",
-    "moment": "momentjs#~2.11.0"
+    "moment": "momentjs#~2.11.0",
+    "bootstrap-material-design": "^0.5.9"
   },
   "overrides": {
     "bootstrap-sass": {

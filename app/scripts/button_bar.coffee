@@ -10,11 +10,11 @@ Dispatcher = require "./dispatcher"
 
 ValidDownloadButton = React.createClass
     render: ->
-        <a href={Selection.download_link()} className="btn btn-primary">Download Selection</a>
+        <a href={Selection.download_link()} className="btn btn-raised btn-success">Download Selection</a>
 
 InvalidDownloadButton = React.createClass
     render: ->
-        <button className="btn disabled">Download Selection</button>
+        <button className="btn btn-raised btn-success disabled">Download Selection</button>
 
 DownloadButton = React.createClass
     render: ->
@@ -27,7 +27,7 @@ DownloadButton = React.createClass
 
 SetPointButton = React.createClass
     render: ->
-        classes = "btn btn-default"
+        classes = "btn btn-raised btn-info"
 
         onClick = =>
             Dispatcher.dispatch actionType:"selection-set-#{@props.point}", ts:@props.cursor
@@ -43,7 +43,7 @@ ClearSelectionButton = React.createClass
     render: ->
         onClick = => Dispatcher.dispatch actionType:"selection-clear"
 
-        classes = "btn btn-default"
+        classes = "btn btn-raised btn-warning"
 
         if !@props.in && !@props.out
             classes += " disabled"
@@ -56,9 +56,9 @@ PlayNow = React.createClass
     render: ->
         onClick = => Dispatcher.dispatch actionType:"play-now"
 
-        classes = "btn btn-default"
+        classes = "btn btn-raised btn-info"
 
-        <button className={classes} onClick={onClick}>Play now</button>
+        <button className={classes} onClick={onClick}>play</button>
 
 #----------
 
@@ -66,18 +66,21 @@ StopNow = React.createClass
     render: ->
         onClick = => Dispatcher.dispatch actionType:"stop-now"
 
-        classes = "btn btn-default"
+        classes = "btn btn-raised btn-info"
 
-        <button className={classes} onClick={onClick}>Stop now</button>
+        <button className={classes} onClick={onClick}>stop</button>
 #----------
 
 module.exports = React.createClass
+    componentDidMount: ->
+        $.material.init()
+        
     render: ->
         <div>
             <DownloadButton valid={@props.selectionValid}/>
+            <ClearSelectionButton in={@props.selectionIn} out={@props.selectionOut}/>
             <SetPointButton point="in" in={@props.selectionIn} out={@props.selectionOut} cursor={@props.cursor}/>
             <SetPointButton point="out" in={@props.selectionIn} out={@props.selectionOut} cursor={@props.cursor}/>
-            <ClearSelectionButton in={@props.selectionIn} out={@props.selectionOut}/>
             <PlayNow/>
             <StopNow/>
         </div>

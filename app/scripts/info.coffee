@@ -10,10 +10,14 @@ AudioInfo = React.createClass
         render: ->
             sTs = if @props.start then moment(@props.start).format('MMM DD, h:mm:ssa') else '--'
             eTs = if @props.end then moment(@props.end).format('MMM DD, h:mm:ssa') else '--'
-
-            <div>
-                <h4>Available Audio:</h4>
-                {sTs} to {eTs}
+            
+            <div className="panel panel-primary">
+                <div className="panel-heading">
+                    <h3 className="panel-title">Available Audio</h3>
+                </div>
+                <div className="panel-body">
+                    {sTs} to {eTs}
+                </div>
             </div>
 
 #----------
@@ -27,12 +31,24 @@ SelectionInfo = React.createClass
             moment.duration(moment(@props.out).diff(@props.in)).format("h [hrs], m [min], s [sec], S [ms]")
         else
             "--"
-
         <div>
-            <h4>Selection</h4>
-            <span className="lead">In:</span> {ints}
-            <br/><span className="lead">Out:</span> {outts}
-            <br/><span className="lead">Duration:</span> {duration}
+            <div className="panel panel-info">
+                <div className="panel-heading">
+                    Selection
+                </div>
+                <div className="panel-body">
+                    <b>In:</b> {ints} <b>Out</b>: {outts}
+                </div>
+            </div>
+            
+            <div className="panel panel-success">
+                <div className="panel-heading">
+                    Duration
+                </div>
+                <div className="panel-body">
+                    {duration}
+                </div>
+            </div>
         </div>
 
 #----------
@@ -40,10 +56,15 @@ SelectionInfo = React.createClass
 CursorInfo = React.createClass
     render: ->
         cursorts = if @props.ts then moment(@props.ts).format("MMM DD, h:mm:ss.SSSa") else "--"
-
-        <div>
-            <h4>Cursor</h4>
-            {cursorts}
+        
+        
+        <div className="panel panel-danger">
+            <div className="panel-heading">
+                Cursor
+            </div>
+            <div className="panel-body">
+                {cursorts}
+            </div>
         </div>
 
 #----------

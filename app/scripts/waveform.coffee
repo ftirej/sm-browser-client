@@ -57,10 +57,9 @@ module.exports = class SM_Waveform
         @audio.on "playhead", (ts) => @_drawPlayhead(ts)
 
         $(document).on "keyup", (e) =>
-            #console.log "keycode is ", e.keyCode
+            console.log "keycode is ", e.keyCode
             if e.keyCode == 32
                 # spacebar
-
                 if @audio.playing()
                     console.log "Stopping"
                     @audio.stop()
@@ -68,12 +67,22 @@ module.exports = class SM_Waveform
                     if ts = Cursor.get('ts')
                         console.log "Playing", ts
                         @audio.play ts
-
+                        
             else if e.keyCode == 219
                 # left bracket... in point
                 @_setInPoint(Cursor.get('ts'))
             else if e.keyCode == 221
                 @_setOutPoint(Cursor.get('ts'))
+            else if e.keyCode == 27
+                if @audio.playing()
+                    console.log "Stopping"
+                    @audio.stop()
+            else if e.keyCode == 74
+                if !@audio.playing()
+                    if ts = Cursor.get('ts')
+                        console.log "Playing", ts
+                        ts5 = ts + 5
+                        @audio.play ts
 
     #----------
 

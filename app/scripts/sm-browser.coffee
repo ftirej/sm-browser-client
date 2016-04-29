@@ -116,9 +116,11 @@ class Main
 
         ReactDom.render(
             <div className="sm-browser">
-                <ButtonBar selectionValid={sValid} selectionIn={sIn} selectionOut={sOut} cursor={cursor}/>
+                <center><ButtonBar className="button-bar" selectionValid={sValid} selectionIn={sIn} selectionOut={sOut} cursor={cursor}/></center>
+                <br/>
                 <Info selectionIn={sIn} selectionOut={sOut} cursor={cursor} audioStart={segStart} audioEnd={segEnd}/>
             </div>
-        , @$ui[0])
-
+        , @$ui[0]
+        ,() ->
+            $.material.init())
 module.exports = Main

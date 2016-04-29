@@ -11,7 +11,7 @@ AudioInfo = React.createClass
             sTs = if @props.start then moment(@props.start).format('MMM DD, h:mm:ssa') else '--'
             eTs = if @props.end then moment(@props.end).format('MMM DD, h:mm:ssa') else '--'
             
-            <div className="panel panel-primary">
+            <div className="panel panel-info">
                 <div className="panel-heading">
                     <h3 className="panel-title">Available Audio</h3>
                 </div>
@@ -41,7 +41,7 @@ SelectionInfo = React.createClass
                 </div>
             </div>
             
-            <div className="panel panel-success">
+            <div className="panel panel-info">
                 <div className="panel-heading">
                     Duration
                 </div>
@@ -58,7 +58,7 @@ CursorInfo = React.createClass
         cursorts = if @props.ts then moment(@props.ts).format("MMM DD, h:mm:ss.SSSa") else "--"
         
         
-        <div className="panel panel-danger">
+        <div className="panel panel-info">
             <div className="panel-heading">
                 Cursor
             </div>

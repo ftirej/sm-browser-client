@@ -72,9 +72,7 @@ StopNow = React.createClass
 #----------
 
 module.exports = React.createClass
-    componentDidMount: ->
-        $.material.init()
-        
+       
     render: ->
         <div>
             <DownloadButton valid={@props.selectionValid}/>

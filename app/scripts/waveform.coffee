@@ -1,6 +1,8 @@
 AudioManager = require "./audio_manager"
 React = require "react"
 d3 = require "d3"
+moment = require "moment"
+require "moment-duration-format"
 
 Segments = require "./segments"
 Cursor = require "./cursor"
@@ -406,7 +408,7 @@ module.exports = class SM_Waveform
 
     _drawCursor: ->
         ts = Cursor.get('ts')
-
+        
         if !ts
             @_markers.selectAll(".cursor").remove()
             @_previewg.selectAll(".cursor").remove()
@@ -421,7 +423,18 @@ module.exports = class SM_Waveform
         c.enter().append("g")
             .attr("class","cursor")
             .append("path")
-
+            
+        @_markers.selectAll("foreignObject.cursor").remove()
+        @_markers.append("foreignObject")
+            .attr("class","cursor")
+            .attr("x", (d,i) ->tthis._x(ts))
+            .attr("y", tthis.height-50)
+            .attr("width", 200)
+            .attr("height", 50)
+            .append("xhtml:body").append("xhtml:div")
+            .style('border','solid 1px red')
+            .style("color", "red").html(moment(ts).format("MMM DD, h:mm:ss.SSSa"))
+                
         c.select("path")
             .attr("d", (d,i) -> "M#{tthis._x(d)},0v0,#{tthis.height}Z" )
 
@@ -442,7 +455,7 @@ module.exports = class SM_Waveform
         tthis = @
         for p in ['in','out']
             s = @_markers.selectAll(".#{p}")
-
+            
             if ts = Selection.get(p)
                 s = s.data([ts])
 
@@ -452,12 +465,33 @@ module.exports = class SM_Waveform
 
                 s.select("path")
                     .attr("d", (ts) -> "M#{tthis._x(ts)},0v0,#{tthis.height}")
-
+                @_markers.selectAll("foreignObject.out-time").remove()
+                if p == 'in'
+                    @_markers.append("foreignObject")
+                    .attr("class","in-time")
+                    .attr("x",tthis._x(ts) - 200)
+                    .attr("y", 0    )
+                    .attr("width", 200)
+                    .attr("height", 50)
+                    .append("xhtml:body").append("xhtml:div")
+                    .style('border','solid 1px red')
+                    .style("color", "red").html(p+": "+moment(ts).format("MMM DD, h:mm:ss.SSSa"))
+                if p == 'out'
+                    @_markers.append("foreignObject")
+                    .attr("class","out-time")
+                    .attr("x",tthis._x(ts))
+                    .attr("y", 0    )
+                    .attr("width", 200)
+                    .attr("height", 50)
+                    .append("xhtml:body").append("xhtml:div")
+                    .style('border','solid 1px red')
+                    .style("color", "red").html(p+": "+moment(ts).format("MMM DD, h:mm:ss.SSSa"))
             else
-                s.remove()
+                s.remove()      
+                                          
 
         # -- selection area -- #
-
+ 
         area = @_markers.selectAll(".inout")
 
         if Selection.isValid()
@@ -467,9 +501,21 @@ module.exports = class SM_Waveform
             @_markers.append("path")
                 .attr("class","inout")
                 .attr("d","M#{inx},0L#{outx},0L#{outx},#{@height}L#{inx},#{@height}Z")
-
+            debugger
+            @_markers.append("foreignObject")
+                .attr("class","area-duration")
+                .attr("x",tthis._x(ts) - outx + inx )
+                .attr("y", tthis.height-50)
+                .attr("width", 200)
+                .attr("height", 50)
+                .append("xhtml:body").append("xhtml:div")
+                .style('border','solid 1px red')
+                .style("color", "red").html("Duration: "+moment.duration(moment(Selection.get("out")).diff(Selection.get("in"))).format("h [hrs], m [min], s [sec], S [ms]"))
         else
             area.remove()
+            @_markers.selectAll("foreignObject.area-duration").remove()
+            @_markers.selectAll("foreignObject.in-time").remove()
+            @_markers.selectAll("foreignObject.out-time").remove()
 
     #----------
 

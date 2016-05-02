@@ -117,8 +117,8 @@ class Main
         #<Info selectionIn={sIn} selectionOut={sOut} cursor={cursor} audioStart={segStart} audioEnd={segEnd}/>
         ReactDom.render(
             <div className="sm-browser">
-                <center><ButtonBar className="button-bar" selectionValid={sValid} selectionIn={sIn} selectionOut={sOut} cursor={cursor}/></center>
-                <br/> 
+                <br />
+                <center><ButtonBar className="button-bar" selectionValid={sValid} selectionIn={sIn} selectionOut={sOut} cursor={cursor}/></center> 
             </div>
         , @$ui[0]
         ,() ->

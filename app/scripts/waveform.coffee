@@ -479,7 +479,7 @@ module.exports = class SM_Waveform
                     .append("xhtml:body")
                     .append("xhtml:div")
                     .attr("class","info-value")
-                    .html("<span class=\"info-title\">IN</span>: "+moment(ts).format("MMM DD, h:mm:ss.SSSa"))
+                    .html("<span class=\"info-title\">IN</span> "+moment(ts).format("MMM DD, h:mm:ss.SSSa"))
                 if p == 'out'
                     @_markers.append("foreignObject")
                     .attr("class","out-time")
@@ -490,7 +490,7 @@ module.exports = class SM_Waveform
                     .append("xhtml:body")
                     .append("xhtml:div")
                     .attr("class","info-value")
-                    .html("<span class=\"info-title\">OUT</span>: "+moment(ts).format("MMM DD, h:mm:ss.SSSa"))
+                    .html("<span class=\"info-title\">OUT</span> "+moment(ts).format("MMM DD, h:mm:ss.SSSa"))
             else
                 s.remove()      
                                           

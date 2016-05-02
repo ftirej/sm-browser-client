@@ -151,6 +151,8 @@ module.exports = class SM_Waveform
                 @_previewIsBrushing = false
                 @_drawPreview()
             .on "brush", =>
+                console.log("zoom")
+                Dispatcher.dispatch actionType:"selection-clear"
                 if @_brush.empty()
                     # no brush selected, so focus all segments in our preview
                     @_x.domain @_px.domain()
@@ -217,7 +219,7 @@ module.exports = class SM_Waveform
                 @_zooming = false
             .on "zoom", =>
                 @_zooming = true
-
+                
                 # -- validate target -- #
 
                 t = @_zoom.translate()
@@ -244,7 +246,7 @@ module.exports = class SM_Waveform
         @_main.call(@_zoom)
 
         @_markers = @_main.append("g").attr("class","markers")
-
+        
         Cursor.on "change", =>
             @_drawCursor()
 
@@ -352,12 +354,12 @@ module.exports = class SM_Waveform
         @_px.domain([ld,rd])
         @_pxIdx.domain([offset_start,offset_end])
         #@_brush.x(@_px)
-
+        
     #----------
 
     _updateFocusWaveform: ->
         tthis = @
-
+        
         # target sample rate is the duration of our x scale * sample rate / width
         d = @_x.domain()
         dur = (Number(d[1]) - Number(d[0])) / 1000

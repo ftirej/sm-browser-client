@@ -114,11 +114,11 @@ class Main
         segStart = Segments.Segments.first()?.get("ts_actual")
         segEnd = Segments.Segments.last()?.get("end_ts_actual")
 
+        #<Info selectionIn={sIn} selectionOut={sOut} cursor={cursor} audioStart={segStart} audioEnd={segEnd}/>
         ReactDom.render(
             <div className="sm-browser">
                 <center><ButtonBar className="button-bar" selectionValid={sValid} selectionIn={sIn} selectionOut={sOut} cursor={cursor}/></center>
-                <br/>
-                <Info selectionIn={sIn} selectionOut={sOut} cursor={cursor} audioStart={segStart} audioEnd={segEnd}/>
+                <br/> 
             </div>
         , @$ui[0]
         ,() ->

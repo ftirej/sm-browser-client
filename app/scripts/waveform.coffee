@@ -60,7 +60,8 @@ module.exports = class SM_Waveform
 
         $(document).on "keyup", (e) =>
             console.log "keycode is ", e.keyCode
-            if e.keyCode == 32
+            # space bar OR k - Play/pause
+            if e.keyCode == 32 or e.keyCode == 75
                 # spacebar
                 if @audio.playing()
                     console.log "Stopping"
@@ -69,23 +70,34 @@ module.exports = class SM_Waveform
                     if ts = Cursor.get('ts')
                         console.log "Playing", ts
                         @audio.play ts
-                        
-            else if e.keyCode == 219
-                # left bracket... in point
+            # [ left bracket - set IN point
+            else if e.keyCode == 219                
                 @_setInPoint(Cursor.get('ts'))
+            # ] right bracket - set OUT point
             else if e.keyCode == 221
                 @_setOutPoint(Cursor.get('ts'))
+            # esc - pause
             else if e.keyCode == 27
                 if @audio.playing()
                     console.log "Stopping"
                     @audio.stop()
+            # shift+j - Jump back 30 second                        
+            else if e.shiftKey and e.which == 74
+                if ts = Cursor.get('ts')
+                    Dispatcher.dispatch actionType:"cursor-set", ts:new Date(ts.getTime() - 30000)
+            # shift+l - Jump forward 30 second                        
+            else if e.shiftKey and e.which == 76                
+                if ts = Cursor.get('ts')
+                    Dispatcher.dispatch actionType:"cursor-set", ts:new Date(ts.getTime() + 30000)
+            # j - Jump back 5 seconds                    
             else if e.keyCode == 74
-                if !@audio.playing()
-                    if ts = Cursor.get('ts')
-                        console.log "Playing", ts
-                        ts5 = ts + 5
-                        @audio.play ts
-
+                if ts = Cursor.get('ts')
+                    Dispatcher.dispatch actionType:"cursor-set", ts:new Date(ts.getTime() - 5000)
+            # l - Jump forward 5 seconds
+            else if e.keyCode == 76
+                if ts = Cursor.get('ts')
+                    Dispatcher.dispatch actionType:"cursor-set", ts:new Date(ts.getTime() + 5000)
+                    
     #----------
 
     _click: (seg,evt,select,segWidth) ->
@@ -520,7 +532,7 @@ module.exports = class SM_Waveform
             @_markers.append("path")
                 .attr("class","inout")
                 .attr("d","M#{inx},0L#{outx},0L#{outx},#{@height}L#{inx},#{@height}Z")
-            debugger
+                
             @_markers.append("foreignObject")
                 .attr("class","area-duration")
                 .attr("x",tthis._x(ts) - outx + inx )

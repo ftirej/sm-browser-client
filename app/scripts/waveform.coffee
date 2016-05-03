@@ -436,7 +436,7 @@ module.exports = class SM_Waveform
             .append("xhtml:body")
             .append("xhtml:div")
             .attr("class","info-value")
-            .html(moment(ts).format("MMM DD, h:mm:ss.SSSa"))
+            .html("<span class=\"info-title\">></span> " + moment(ts).format("MMM DD, h:mm:ss.SSSa"))
                 
         c.select("path")
             .attr("d", (d,i) -> "M#{tthis._x(d)},0v0,#{tthis.height}Z" )

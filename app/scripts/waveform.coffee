@@ -142,8 +142,21 @@ module.exports = class SM_Waveform
 
         # -- Preview Graph with Brushing -- #
 
-        @_previewg = d3.select(@_preview[0]).append("svg").attr("class","preview").style(width:"100%",height:"#{@preview_height+20}px")
-
+        @_previewg = d3.select(@_preview[0]).append("svg").attr("class","preview").style(width:"100%",height:"#{@preview_height+50}px")
+        #Available audio information in the waveform
+        segStart = Segments.Segments.first()?.get("ts_actual")
+        segEnd = Segments.Segments.last()?.get("end_ts_actual")
+        @_previewg.append("foreignObject")
+            .attr("class","available-audio")
+            .attr("x", 0)
+            .attr("y", 75)
+            .attr("width", 410)
+            .attr("height", 25)
+            .append("xhtml:body")
+            .append("xhtml:div")
+            .attr("class","info-value")
+            .html("<span class=\"info-title\">Available audio from</span> " + moment(segStart).format('MMM DD, h:mm:ssa') + " <span class=\"info-title\">to</span> " + moment(segEnd).format('MMM DD, h:mm:ssa'))
+            
         @_brush = d3.svg.brush().x(@_px).extent(@_x.domain())
             .on "brushstart", =>
                 @_previewIsBrushing = true
@@ -151,7 +164,8 @@ module.exports = class SM_Waveform
                 @_previewIsBrushing = false
                 @_drawPreview()
             .on "brush", =>
-                console.log("zoom")
+                #console.log("zoom manipulated")
+                # I clean markers when zoom (preview waveform) is manipulated
                 Dispatcher.dispatch actionType:"selection-clear"
                 if @_brush.empty()
                     # no brush selected, so focus all segments in our preview
